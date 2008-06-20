@@ -41,13 +41,13 @@ class SettingsControllerTest < Test::Unit::TestCase
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',
-                              :notified_events => %w(issue_added issue_updated news_added),
+                              :notified_events => %w(issue_added issue_updated news_added wiki_page_updated),
                               :emails_footer => 'Test footer'
                               }
     assert_redirected_to 'settings/edit'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?
-    assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
+    assert_equal %w(issue_added issue_updated news_added wiki_page_updated), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
   end
 end
