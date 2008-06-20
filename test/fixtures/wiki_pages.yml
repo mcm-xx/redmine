@@ -23,4 +23,9 @@ wiki_pages_004:
   id: 4
   wiki_id: 1
   protected: false
-  
+wiki_pages_005:
+  created_on: 2007-03-08 00:18:07 +01:00
+  title: toc_page
+  id: 5
+  wiki_id: 1
+  display_in_toc: true

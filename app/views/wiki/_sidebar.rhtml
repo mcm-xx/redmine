@@ -3,3 +3,12 @@
 <%= link_to l(:field_start_page), {:action => 'index', :page => nil} %><br />
 <%= link_to l(:label_index_by_title), {:action => 'special', :page => 'Page_index'} %><br />
 <%= link_to l(:label_index_by_date), {:action => 'special', :page => 'Date_index'} %><br />
+
+<% unless @wiki.toc_pages.blank? %>
+  <h3>Table of Contents</h3>
+
+  <% for page in @wiki.toc_pages %>
+    <%= link_to h(page.pretty_title), { :action => 'index', :page => page.title } %><br />
+  <% end %>
+<% end %>
+

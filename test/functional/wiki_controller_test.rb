@@ -227,4 +227,24 @@ class WikiControllerTest < Test::Unit::TestCase
     assert_response :success
     assert_template 'edit'    
   end
+  
+  def test_setting_page_for_toc
+    @request.session[:user_id] = 2
+    post :edit, :id => 1, :page => 'Another_page', :content => { :text => "something", :version => 2 }, :display_in_toc => "1"
+    assert_redirected_to 'wiki/ecookbook/Another_page'
+    
+    page = WikiPage.find_by_title('Another_page')
+    assert_not_nil page
+    assert         page.display_in_toc?    
+  end
+
+  def test_resetting_page_for_toc
+    @request.session[:user_id] = 2
+    post :edit, :id => 1, :page => 'toc_page', :content => { :text => "something", :version => 2 }
+    assert_redirected_to 'wiki/ecookbook/Toc_page'
+    
+    page = WikiPage.find_by_title('toc_page')
+    assert_not_nil page
+    assert         !page.display_in_toc?
+  end
 end
