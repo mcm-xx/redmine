@@ -1,8 +1,10 @@
 --- 
 wiki_contents_001: 
   text: |-
-    h1. CookBook documentation
-    
+    h1. CookBook documentation
+
+    
+
     Some updated [[documentation]] here with gzipped history
   updated_on: 2007-03-07 00:10:51 +01:00
   page_id: 1
@@ -47,4 +49,11 @@ wiki_contents_004:
   version: 1
   author_id: 1
   comments: 
-  
+wiki_contents_005: 
+  text: "TOC Page"
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 5
+  id: 5
+  version: 1
+  author_id: 1
+  comments: 
