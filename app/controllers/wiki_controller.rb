@@ -187,7 +187,6 @@ class WikiController < ApplicationController
     @comment = Comment.new(params[:comment])
     @comment.author = User.current
     @page.comments << @comment
-    @page.save!
   end
 
   def destroy_attachment
