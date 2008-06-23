@@ -1,0 +1,2 @@
+page << "new Insertion.After('comments', '#{render(:partial => "comment", :object => @comment, :locals => { :hide => true }).gsub(/\n/, '')}');"
+page << "new Effect.Appear('comment-#{@comment.id}');"

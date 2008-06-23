@@ -77,6 +77,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_wiki_pages, :wiki => [:index, :history, :diff, :annotate, :special]
     map.permission :edit_wiki_pages, :wiki => [:edit, :preview, :add_attachment, :destroy_attachment]
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
+    map.permission :comment_wiki_pages, {:wiki => :add_comment}, :require => :member
   end
     
   map.project_module :repository do |map|

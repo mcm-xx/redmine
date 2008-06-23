@@ -55,3 +55,16 @@
 <% end %>
 
 <% html_title @page.pretty_title %>
+
+<h2>Comments</h2>
+<div id="comments">
+  <%= render :partial => "wiki/comment", :collection => @page.comments %>
+</div>
+
+<%- if authorize_for('wiki', 'add_comment') -%>
+  <%= link_to_function "Leave Comment", "$('add_comment_form').show();" %><br/>
+  <%- remote_form_for :comment, :url => { :controller => 'wiki', :action => 'add_comment', :page => @page.title }, :html => { :id => 'add_comment_form', :style => "display:none" } do |f| -%>
+    <%= f.text_area :comments, :rows => 10, :cols => 70 %><br/>
+    <%= f.submit "Add Comment" %>
+  <%- end -%>
+<%- end -%>

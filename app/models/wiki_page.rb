@@ -19,10 +19,11 @@ require 'diff'
 require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
-  belongs_to :wiki
-  has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
-  has_many :attachments, :as => :container, :dependent => :destroy
-
+  belongs_to  :wiki
+  has_one     :content,     :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
+  has_many    :attachments, :as => :container, :dependent => :destroy
+  has_many    :comments,    :as => :commented, :dependent => :delete_all, :order => "created_on"
+  
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
                 :datetime => :created_on,
@@ -110,6 +111,13 @@ class WikiPage < ActiveRecord::Base
   def editable_by?(usr)
     !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
   end
+  
+  # Indexes comments automatically when being returned.
+  def comments_with_indexing
+    comments = comments_without_indexing
+    comments.each_with_index { |c, i| c.indice = i + 1 }
+  end
+  alias_method_chain :comments, :indexing
 end
 
 class WikiDiff

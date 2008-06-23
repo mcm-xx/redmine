@@ -1,0 +1,12 @@
+<%- hide ||= false -%>
+<div id="comment-<%= comment.id %>" class="journal" <%= 'style="opacity: 0.01;"' if hide %>>
+  <h4><div style="float:right;"><%= link_to "##{comment.indice}", :anchor => "comment-#{comment.indice}" %></div>
+  <%= content_tag('a', '', :name => "comment-#{comment.indice}")%>
+  <%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
+
+  <%- unless comment.comments.blank? -%>
+    <div id="comment-<%= comment.id %>-text" class="wiki">
+      <%= textilizable(comment, :comments) %>
+    </div>
+  <%- end -%>
+</div>

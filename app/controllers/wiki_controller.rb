@@ -182,6 +182,14 @@ class WikiController < ApplicationController
     redirect_to :action => 'index', :page => @page.title
   end
 
+  def add_comment
+    @page = @wiki.find_page(params[:page])
+    @comment = Comment.new(params[:comment])
+    @comment.author = User.current
+    @page.comments << @comment
+    @page.save!
+  end
+
   def destroy_attachment
     @page = @wiki.find_page(params[:page])
     return render_403 unless editable?
