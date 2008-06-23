@@ -116,6 +116,7 @@ class WikiPage < ActiveRecord::Base
   def comments_with_indexing
     comments = comments_without_indexing
     comments.each_with_index { |c, i| c.indice = i + 1 }
+    comments
   end
   alias_method_chain :comments, :indexing
 end
