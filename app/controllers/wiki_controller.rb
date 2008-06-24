@@ -19,7 +19,8 @@ require 'diff'
 
 class WikiController < ApplicationController
   layout 'base'
-  before_filter :find_wiki, :authorize
+  before_filter :find_wiki
+  before_filter :authorize, :except => :exists
   
   verify :method => :post, :only => [:destroy, :destroy_attachment, :protect], :redirect_to => { :action => :index }
 
@@ -50,6 +51,11 @@ class WikiController < ApplicationController
     end
 	@editable = editable?
     render :action => 'show'
+  end
+  
+  def exists
+    @page = @wiki.find_page(params[:page])
+    render :text => "#{(!@page.nil?).to_s}"
   end
   
   # edit an existing page or a new one
