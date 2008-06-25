@@ -1,2 +1,4 @@
 page.insert_html    :bottom, "comments", render(:partial => "comment", :object => @comment, :locals => { :hide => true })
 page.visual_effect  :appear, "comment-#{@comment.id}"
+page["comment_comments"].clear
+page["add_comment_form"].hide
