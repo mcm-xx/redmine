@@ -20,7 +20,10 @@ require 'diff'
 class WikiController < ApplicationController
   layout 'base'
   before_filter :find_wiki
+  
+  # never log in / authorize for "exists" action (it's entirely public)
   before_filter :authorize, :except => :exists
+  skip_before_filter :check_if_login_required, :only => :exists
   
   verify :method => :post, :only => [:destroy, :destroy_attachment, :protect], :redirect_to => { :action => :index }
 
