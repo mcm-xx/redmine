@@ -197,7 +197,7 @@ class WikiController < ApplicationController
     @comment.author = User.current
     @page.comments << @comment
 
-    Mailer.deliver_wiki_page_updated(@page) if Setting.notified_events.include?('wiki_page_updated')
+    Mailer.deliver_wiki_comment_added(@comment) if Setting.notified_events.include?('wiki_page_updated')
   end
 
   def destroy_attachment

@@ -68,6 +68,18 @@ class Mailer < ActionMailer::Base
          :document_url => url_for(:controller => 'documents', :action => 'show', :id => document)
   end
   
+  def wiki_comment_added(comment)
+    wiki_page = comment.commented
+    project = wiki_page.project
+    redmine_headers 'Project'     => project.identifier,
+                    'Wiki-Title'  => wiki_page.title
+    recipients project.recipients
+    subject "[#{project.name}] Comment Added to Wiki Page: #{wiki_page.pretty_title}"
+    body :wiki_page     => wiki_page,
+         :wiki_page_url => url_for(:controller => 'wiki', :id => project, :page => wiki_page.title),
+         :comment       => comment
+  end
+  
   def wiki_page_updated(wiki_page)
     project = wiki_page.project
     redmine_headers 'Project'     => project.identifier,
