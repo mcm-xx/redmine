@@ -1,5 +1,4 @@
 log/*.log
-vendor/rails
 tmp/sessions/*
 db/schema.rb
 tmp
