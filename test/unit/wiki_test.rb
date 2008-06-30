@@ -39,6 +39,7 @@ class WikiTest < Test::Unit::TestCase
   
   def test_titleize
     assert_equal 'Page_title_with_CAPITALES', Wiki.titleize('page title with CAPITALES')
+    assert_equal 'Page_Title_With_CAPITALES', Wiki.titleize('PageTitleWithCAPITALES')
     assert_equal 'テスト', Wiki.titleize('テスト')
   end
   

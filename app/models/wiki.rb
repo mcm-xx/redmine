@@ -46,10 +46,18 @@ class Wiki < ActiveRecord::Base
   
   # turn a string into a valid page title
   def self.titleize(title)
+    # convert camel-case to underscored
+    title.gsub!(/_*([A-Z]+)/, '_\1')
+    
     # replace spaces with _ and remove unwanted caracters
     title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
+
+    # cleanup
+    title.gsub!(/_+/, '_')
+    title.gsub!(/^_+/, '')
+    
     # upcase the first letter
     title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
     title
-  end  
+  end
 end
