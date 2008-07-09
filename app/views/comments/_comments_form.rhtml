@@ -1,0 +1,10 @@
+<%-
+  text = @comment.comments
+  cid = "comment-#{@comment.id}"
+-%>
+<% form_remote_tag(:url => {}, :html => { :id => "#{cid}-form" }) do %>
+    <%= text_area_tag :comments, text, :class => 'wiki-edit', 
+                      :rows => (text.blank? ? 10 : [[10, text.length / 50].max, 100].min) %>
+    <p><%= submit_tag l(:button_save) %>
+    <%= link_to l(:button_cancel), '#', :onclick => "Element.remove('#{cid}-form'); Element.show('#{cid}-text'); return false;" %></p>
+<% end %>

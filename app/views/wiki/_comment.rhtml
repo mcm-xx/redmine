@@ -4,9 +4,5 @@
   <%= content_tag('a', '', :name => "comment-#{comment.indice}")%>
   <%= format_time(comment.created_on) %> - <%= comment.author.name %></h4>
 
-  <%- unless comment.comments.blank? -%>
-    <div id="comment-<%= comment.id %>-text" class="wiki">
-      <%= textilizable(comment, :comments) %>
-    </div>
-  <%- end -%>
+  <%= render_comment(comment) unless comment.comments.blank? %>
 </div>

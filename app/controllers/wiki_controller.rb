@@ -27,7 +27,7 @@ class WikiController < ApplicationController
   
   verify :method => :post, :only => [:destroy, :destroy_attachment, :protect], :redirect_to => { :action => :index }
 
-  helper :attachments
+  helper :attachments, :comments
   include AttachmentsHelper   
   
   # display a page (in editing mode if it doesn't exist)
@@ -196,6 +196,8 @@ class WikiController < ApplicationController
     @comment = Comment.new(params[:comment])
     @comment.author = User.current
     @page.comments << @comment
+
+    @comment.indice = @comment.commented.comments.count
 
     Mailer.deliver_wiki_comment_added(@comment) if Setting.notified_events.include?('wiki_page_updated')
   end

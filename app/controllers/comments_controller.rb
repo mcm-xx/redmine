@@ -1,5 +1,5 @@
 # redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
+# Copyright (C) 2006-2008  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,19 +15,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Comment < ActiveRecord::Base
-  belongs_to :commented, :polymorphic => true, :counter_cache => true
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+class CommentsController < ApplicationController
+  layout 'base'
+  before_filter :find_comment
 
-  validates_presence_of :commented, :author, :comments
-
-  # Used in the views to anchor comments
-  attr_accessor :indice
-
-  # Returns TRUE if this comment is editable by a user given.
-  # Note: this check reuses :edit_issue_notes and :edit_own_issue_notes permissions.
-  def editable_by?(user)
-    project = commented.project
-    user && user.logged? && (user.allowed_to?(:edit_issue_notes, project) || (self.author == user && user.allowed_to?(:edit_own_issue_notes, project)))
+  def edit
+    if request.post?
+      @comment.update_attributes(:comments => params[:comments]) if params[:comments]
+      @comment.destroy if @comment.comments.blank?
+      respond_to do |format|
+        format.html { redirect_to :controller => 'wiki', :action => 'show', :id => @comment.commented_id }
+        format.js   { render :action => 'update' }
+      end
+    end
   end
+
+  private
+
+  def find_comment
+    @comment = Comment.find(params[:id])
+    render_403 and return false unless @comment.editable_by?(User.current)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
 end

@@ -1,0 +1,3 @@
+cid = "comment-#{@comment.id}-text"
+page.hide         cid
+page.insert_html  :after, cid, :partial => 'comments_form'

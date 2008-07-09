@@ -1,0 +1,9 @@
+cid = "comment-#{@comment.id}"
+if @comment.frozen?
+  # comment was destroyed
+  page.remove   cid
+else
+  page.replace  "#{cid}-text", render_comment(@comment)
+  page.show     "#{cid}-text"
+  page.remove   "#{cid}-form"
+end
