@@ -1,3 +1,4 @@
 <%= link_to @wiki_page.pretty_title, @wiki_page_url %><br />
+<em><%= @comment.author %></em>
 <br />
 <%= textilizable(@comment, :comments) %>
